@@ -13,16 +13,16 @@ import {
   Paper,
   Select,
   TextField,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/styles";
+} from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import {
   Autorenew,
   LockOutlined,
   Visibility,
   VisibilityOff,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 import { useState } from "react";
-import { createUser } from "../../service/api";
+import { API } from "../../service/api";
 
 const useStyles = makeStyles({
   container: {
@@ -102,7 +102,7 @@ const Signup = () => {
   };
   const saveUser = async () => {
     try {
-      await createUser(user);
+      await API.userSignup(user);
     } catch (error) {
       console.log(error);
     }
@@ -119,6 +119,7 @@ const Signup = () => {
 
   return (
     <Card
+    elevation={10}
       style={{
         justifyItems: "center",
         maxWidth: "600px",
@@ -126,7 +127,6 @@ const Signup = () => {
         padding: "20 0",
       }}
     >
-      <form>
         <CardContent>
           <Grid container spacing={1}>
             <Grid item xs={12} sm={12}>
@@ -250,7 +250,7 @@ const Signup = () => {
           </Grid>
           <Grid item>
             <Button
-              type="submit"
+            type="button"
               onClick={() => saveUser()}
               style={{
                 backgroundColor: "green",
@@ -265,7 +265,6 @@ const Signup = () => {
             </Button>
           </Grid>
         </CardContent>
-      </form>
     </Card>
   );
 };

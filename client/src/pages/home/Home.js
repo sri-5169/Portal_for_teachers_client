@@ -1,23 +1,48 @@
-import { Button } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Banner from "../../banner/Banner";
+import FeedArea from "./FeedArea";
+import NavBar from "./Navbar";
+import "./styles.css";
+import MenuIcon from "@mui/icons-material/Menu";
+import ReportIcon from "@mui/icons-material/Report";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { LoginContext } from "../../context/ContextProvider";
 import { Link } from "react-router-dom";
-import Complain from "../complain/Complain";
-import Notice from "../notice/Notice";
+import { getUserDetails, saveUserDetails } from "../../utils/common-utils";
 const Home = () => {
-  useEffect(() => {
-    console.log("data");
-  }, []);
-
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const handleMenu = () => {
+    setOpenDrawer(true);
+  };
+  const { account, setAccount } = useContext(LoginContext);
+    useEffect(() => {
+     setAccount(getUserDetails());
+    }, [])
   return (
     <div>
-        <img height="150" width="100%" src="images/ban.jpg" alt="img" />
-      <div>
-      <Link to="/details/101612758411">
-        <Button variant="contained">Contained</Button>
-      </Link>
-        <Complain/>
-    </div>
-      <Notice/>
+      <div className="banner" style={{ border: "1px solid black" }}>
+        <Banner />
+      </div>
+      <div className="main__container">
+        <NavBar open={openDrawer} setOpen={setOpenDrawer} />
+        <div className="icons">
+          <MenuIcon onClick={handleMenu} cursor="pointer" />
+          <Link to={`/complaints/${account.UANNumber}`}>
+          <ReportIcon style={{ color: "green" }} />
+          </Link>
+          <Link to={`/reports/${account.UANNumber}`}>
+          <BorderColorIcon style={{ color: "green" }}/>
+          </Link>
+          <Link to={`/detail/${account.UANNumber}`}>
+          <AccountCircleIcon style={{ color: "green" }}  />
+          </Link>
+          <span>
+          {account.name}
+          </span>
+        </div>
+        <FeedArea />
+      </div>
     </div>
   );
 };
