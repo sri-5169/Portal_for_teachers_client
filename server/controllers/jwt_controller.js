@@ -38,6 +38,7 @@ export const createNewToken = async (request, response) => {
     const accessToken = jwt.sign(user, process.env.ACCESS_SECRET_KEY, {
       expiresIn: "30m",
     });
+    console.log(user);
     return response.status(200).json({ accessToken: accessToken });
   });
 };
